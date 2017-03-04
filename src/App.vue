@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     showchange: function (data) {
+      console.log('showchange')
       console.log(JSON.stringify(data))
     }
   }
