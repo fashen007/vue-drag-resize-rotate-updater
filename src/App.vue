@@ -38,7 +38,7 @@
 
 </style>
 <script>
-import VueDRR from './vue-drag-resize-rotate'
+import VueDRR from './vue-drag-resize-rotate-updater'
 export default {
   name: 'app',
   components: {

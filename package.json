@@ -2,7 +2,7 @@
   "name": "vue-drag-resize-rotate-updater",
   "version": "0.0.1",
   "description": "a vue2 component. Taking a cue from react-resizable and react-draggable",
-  "main": "dist/vue-drag-resize-rotate.js",
+  "main": "dist/vue-drag-resize-rotate-updater.js",
   "scripts": {
     "dev": "node build/dev-server.js",
     "dist": "webpack --progress --hide-modules --config build/webpack.build.js && cross-env NODE_ENV=production webpack --progress --hide-modules --config  build/webpack.build.min.js"
@@ -20,7 +20,7 @@
   ],
   "files": [
     "dist",
-    "src/vue-drag-resize-rotate.vue"
+    "src/vue-drag-resize-rotate-updater.vue"
   ],
   "author": "646028751@qq.com",
   "dependencies": {

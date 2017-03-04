@@ -1,2 +1,2 @@
-import VueDragResizeRotate from './vue-drag-resize-rotate.vue'
+import VueDragResizeRotate from './vue-drag-resize-rotate-updater.vue'
 module.exports = VueDragResizeRotate
