@@ -287,8 +287,9 @@ export default {
       this.dragging = true
     },
     handleUp: function(e) {
-      // 如果只是单纯点击了document 没必要向父级emit事件
-      if (e.target.tagName === 'HTML' && !this.dragging && !this.resizing && !this.rotating) {
+      console.log('e.target.tagName', e.target.tagName)
+      // 如果没有做任何更改也没必要向父级emit事件
+      if (!this.dragging && !this.resizing && !this.rotating) {
         return
       }
       this.dragging = false
