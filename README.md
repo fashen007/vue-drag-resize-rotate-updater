@@ -64,3 +64,20 @@ export default {
 }
 </script>
 ```
+###APi
+```
+w: 表示默宽度                        Number
+h: 表示默认高度                      Number
+x: 表示默认距离x轴原点的距离           Number
+y: 表示默认距离y轴原点的距离           Number
+axis: 表示能锁定移动轴                 String
+rotatable: 表示是否能够旋转，默认可以    Boolean
+
+//
+handle: 表示可以拖拽的子集class         String
+cancel： 表示不能拖拽的子集class        String
+
+grid : 表示移动的跨度                  Array  // [10, 10] 表示如果在x轴上移动一次就是10像素 y轴同理
+
+bounds： 表示能移动的范围               Object // :bounds='{top: -100, left: -100, right: 100, bottom: 100}'
+```

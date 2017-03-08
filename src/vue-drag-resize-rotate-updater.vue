@@ -164,11 +164,11 @@ export default {
   props: {
     w: {
       type: Number,
-      default: 0
+      default: 40
     },
     h: {
       type: Number,
-      default: 0
+      default: 40
     },
     x: {
       type: Number,
@@ -184,7 +184,7 @@ export default {
     },
     rotatable: {
       type: Boolean,
-      default: false
+      default: true
     },
     axis: {
       type: String,
