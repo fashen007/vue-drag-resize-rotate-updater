@@ -1,7 +1,7 @@
 <style scoped>
 .dragable {
   position: relative;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   text-align: center;
   /*padding: 10px;*/
   background: #fff;

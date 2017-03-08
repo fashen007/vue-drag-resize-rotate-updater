@@ -1,6 +1,6 @@
 {
   "name": "vue-drag-resize-rotate-updater",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "a vue2 component. Taking a cue from react-resizable and react-draggable",
   "main": "dist/vue-drag-resize-rotate-updater.js",
   "scripts": {
