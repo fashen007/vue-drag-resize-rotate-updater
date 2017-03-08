@@ -164,11 +164,11 @@ export default {
   props: {
     w: {
       type: Number,
-      default: 200
+      default: 0
     },
     h: {
       type: Number,
-      default: 200
+      default: 0
     },
     x: {
       type: Number,
@@ -287,10 +287,13 @@ export default {
       this.dragging = true
     },
     handleUp: function(e) {
+      // 如果只是单纯点击了document 没必要向父级emit事件
+      if (e.target.tagName === 'HTML' && !this.dragging && !this.resizing && !this.rotating) {
+        return
+      }
       this.dragging = false
       this.resizing = false
       this.rotating = false
-      if (e.target.tagName === 'HTML') return
       this.$emit('handleUp', {
         x: this.localx,
         y: this.localy,

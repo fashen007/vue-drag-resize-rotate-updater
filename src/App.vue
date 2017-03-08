@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vue-drr :w='180' :h='180' :r='0' :rotatable='false' v-on:handleUp="showchange">
+  <vue-drr :w='180' :h='180' :r='0' :rotatable='true' v-on:handleUp="showchange">
     I can be dragged anywhere
   </vue-drr>
   <div style="height: 500px; width: 500px;float:left;position: relative;border: 1px solid black;padding:5px">
