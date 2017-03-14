@@ -1,23 +1,21 @@
 <style scoped>
 .dragable {
-  position: relative;
-  /*border: 1px solid black;*/
+  position: absolute;
   text-align: center;
-  /*padding: 10px;*/
   background: #fff;
   box-sizing: border-box;
-  overflow: hidden;
-  float: left;
-  /*margin: 10px;*/
 }
-
+.is-active {
+  border: 1px solid #20a0ff;
+}
 .scale {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   bottom: 0;
   right: 0;
-  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQWRvYmUgRmlyZXdvcmtzIENTNiwgRXhwb3J0IFNWRyBFeHRlbnNpb24gYnkgQWFyb24gQmVhbGwgKGh0dHA6Ly9maXJld29ya3MuYWJlYWxsLmNvbSkgLiBWZXJzaW9uOiAwLjYuMSAgLS0+DTwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DTxzdmcgaWQ9IlVudGl0bGVkLVBhZ2UlMjAxIiB2aWV3Qm94PSIwIDAgNiA2IiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHZlcnNpb249IjEuMSINCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQl4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjZweCIgaGVpZ2h0PSI2cHgiDT4NCTxnIG9wYWNpdHk9IjAuMzAyIj4NCQk8cGF0aCBkPSJNIDYgNiBMIDAgNiBMIDAgNC4yIEwgNCA0LjIgTCA0LjIgNC4yIEwgNC4yIDAgTCA2IDAgTCA2IDYgTCA2IDYgWiIgZmlsbD0iIzAwMDAwMCIvPg0JPC9nPg08L3N2Zz4=');
+  border: 1px solid #999;
+  background-color: #eee;
   background-position: bottom right;
   padding: 0 3px 3px 0;
   background-repeat: no-repeat;
@@ -30,24 +28,49 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  top: 0;
-  right: 0;
-  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjYiIGhlaWdodD0iNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPGcgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDMuMDAwMDAwMDAwMDAwMDAwNCwzKSAiIGlkPSJzdmdfMSIgb3BhY2l0eT0iMC4zMDIiPgogICA8cGF0aCBpZD0ic3ZnXzIiIGZpbGw9IiMwMDAwMDAiIGQ9Im02LDZsLTYsMGwwLC0xLjhsNCwwbDAuMiwwbDAsLTQuMmwxLjgsMGwwLDZsMCwweiIvPgogIDwvZz4KIDwvZz4KPC9zdmc+');
+  left: 50%;
+  margin-left: -10px;
+  bottom: -20px;
+  background-color: #000;
   background-position: top right;
   padding: 3px 3px 0px 0;
   background-repeat: no-repeat;
   background-origin: content-box;
   box-sizing: border-box;
-  cursor: se-resize;
+  cursor: alias;
+}
+.scale-top-left {
+  cursor: nwse-resize;
+  top: 5px;
+  left: 5px;
+}
+.scale-top-right {
+  cursor: nesw-resize;
+  top: 5px;
+  right: 5px;
+}
+.scale-bottom-left {
+  bottom: 5px;
+  left: 5px;
+  cursor: nesw-resize;
+}
+.scale-bottom-right {
+  bottom: 5px;
+  right: 5px;
+  cursor: nwse-resize;
 }
 </style>
-
 <template>
-<div class='dragable' @mousedown='handleDown' @mouseup.stop='handleUp' :style='boxStyle'>
-  <slot></slot>
-  <div class='rotate' @mousedown.stop='rotateStart'></div>
-  <div class='scale' @mousedown.stop='resizeStart'></div>
-</div>
+  <div class='dragable' :class="{'is-active': isActive}" @mousedown='handleDown' @mouseup.stop='handleUp' :style='boxStyle'>
+    <slot></slot>
+    <template v-if='this.isActive'>
+      <div class='scale scale-top-left' @mousedown.stop='(e) => { resizeStart(e, "nw")}'></div>
+      <div class='scale scale-top-right' @mousedown.stop='(e) => { resizeStart(e, "ne")}'></div>
+      <div class='scale scale-bottom-left' @mousedown.stop='(e) => { resizeStart(e, "sw")}'></div>
+      <div class='scale scale-bottom-right' @mousedown.stop='(e) => { resizeStart(e, "se")}'></div>
+      <div class='rotate' @mousedown.stop='rotateStart' v-show='rotatable'></div>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -207,7 +230,15 @@ export default {
     bounds: {
       type: Object,
       default: null
-    }
+    },
+    isActive: {
+      type: Boolean,
+      default: false
+    },
+    uid: {
+      default: ''
+    },
+    sameSizeRatio: true // 是否等比例缩放
   },
   mounted: function() {
     var el = document.documentElement
@@ -264,16 +295,16 @@ export default {
         this.rotating = true
       }
     },
-    resizeStart: function(e) {
+    resizeStart: function(e, direction) {
+      this.direction = direction // 方向
       this.resizeStartX = e.clientX
       this.resizeStartY = e.clientY
       this.resizing = true
+      this.dragging = false
       this.lastW = this.localw
       this.lastH = this.localh
     },
     handleDown: function(e) {
-      // console.log(matchesSelector(e.target, this.handle))
-
       if (this.handle && !matchesSelector(e.target, this.handle)) {
         return
       }
@@ -287,9 +318,11 @@ export default {
       this.dragging = true
     },
     handleUp: function(e) {
-      console.log('e.target.tagName', e.target.tagName)
       // 如果没有做任何更改也没必要向父级emit事件
       if (!this.dragging && !this.resizing && !this.rotating) {
+        this.$emit('handleUp', {
+          uid: ''
+        })
         return
       }
       this.dragging = false
@@ -300,14 +333,14 @@ export default {
         y: this.localy,
         w: this.localw,
         h: this.localh,
-        r: this.localr
+        r: this.localr,
+        uid: this.uid
       })
     },
     handleMove: function(e) {
       if (e.stopPropagation) e.stopPropagation()
       if (e.preventDefault) e.preventDefault()
-
-      if (this.dragging) {
+      if (this.dragging && this.isActive) {
         let deltax = e.clientX - this.lastX
         let deltay = e.clientY - this.lastY
 
@@ -340,13 +373,32 @@ export default {
         if (this.bounds) {
           [thisx, thisy] = getBoundPosition(this.bounds, this.$el, thisx, thisy)
         }
-
         this.localx = thisx
         this.localy = thisy
       }
       if (this.resizing) {
-        this.localw = parseInt(this.lastW) + parseInt(e.clientX) - parseInt(this.resizeStartX)
-        this.localh = parseInt(this.lastH) + parseInt(e.clientY) - parseInt(this.resizeStartY)
+        let distanceX = 0
+        let distanceY = 0
+        if (this.direction === 'nw' || this.direction === 'sw') {
+          distanceX = parseInt(this.resizeStartX) - parseInt(e.clientX)
+          distanceY = parseInt(this.resizeStartY) - parseInt(e.clientY)
+        } else {
+          distanceX = parseInt(e.clientX) - parseInt(this.resizeStartX)
+          distanceY = parseInt(e.clientY) - parseInt(this.resizeStartY)
+        }
+        this.localw = parseInt(this.lastW) + distanceX
+        this.localh = this.sameSizeRatio ? this.lastH / this.lastW * this.localw : parseInt(this.lastH) + distanceY
+        if (this.direction === 'nw') { // resize 左上角
+          this.localx = e.clientX
+          // 当时左上角的时候，这个时候不能直接设置 localy = e.clientY 因为e.clienY并不一定等于高度增加量
+          // localy 表示新的坐标，而 新坐标 = 旧坐标 + Y轴增加量
+          // 其实就是 一切变化由x轴来决定 在 等比例变化的情况下
+          this.localy = this.resizeStartY - (this.localh - this.lastH)
+        } else if (this.direction === 'ne') { // resize 右上角
+          this.localy = this.resizeStartY - (this.localh - this.lastH) // 同上解释
+        } else if (this.direction === 'sw') { // resize 左下角
+          this.localx = e.clientX
+        }
       }
       if (this.rotating) {
         this.localr = parseInt(this.r) + this.getRotateAngle(e.clientX, e.clientY)
@@ -374,11 +426,12 @@ export default {
   },
   computed: {
     boxStyle: function() {
-      return {
-        width: this.localw + 'px',
-        height: this.localh + 'px',
-        transform: 'translate(' + this.localx + 'px,' + this.localy + 'px) rotate(' + this.localr + 'deg)'
+      let styleObject = {
+        width: `${this.localw}px`,
+        height: `${this.localh}px`,
+        transform: `translate(${this.localx}px, ${this.localy}px) rotate(${this.localr}deg)`
       }
+      return styleObject
     }
   }
 }
