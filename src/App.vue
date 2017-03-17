@@ -3,7 +3,7 @@
   <vue-drr :w='180' :h='180' :r='0' :rotatable='true' v-on:handleUp="showchange" :isActive='currentUid == 1' uid='1' :sameSizeRatio='true'>
     I can be dragged anywhere
   </vue-drr>
-  <!-- <div style="height: 500px; width: 500px;float:left;position: relative;border: 1px solid black;padding:5px" >
+  <div style="height: 500px; width: 500px;float:left;position: relative;border: 1px solid black;padding:5px" >
     <vue-drr :w='180' :h='180' :bounds='{parent:true}' :rotatable='true' uid='2' :isActive='currentUid == 2'>
       <div>I can only be moved in any parent.</div>
     </vue-drr>
@@ -30,7 +30,7 @@
   </vue-drr>
   <vue-drr :w='180' :h='180' :bounds='{top: -100, left: -100, right: 100, bottom: 100}' :rotatable='true' uid='8' :isActive='currentUid == 8'>
     <div>I can only be moved 100px in any direction.</div>
-  </vue-drr> -->
+  </vue-drr>
 </div>
 </template>
 <style>
@@ -63,6 +63,7 @@ export default {
   methods: {
     showchange: function (data) {
       this.currentUid = data.uid
+      console.log(data)
     }
   }
 }

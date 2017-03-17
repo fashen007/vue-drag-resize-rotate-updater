@@ -101,8 +101,6 @@ let outerHeight = function(node) {
   let computedStyle = window.getComputedStyle(node)
   height += int(computedStyle.borderTopWidth)
   height += int(computedStyle.borderBottomWidth)
-    // height += int(computedStyle.marginTop);
-    // height += int(computedStyle.marginBottom);
   return height
 }
 
@@ -113,8 +111,6 @@ let outerWidth = function(node) {
   let computedStyle = window.getComputedStyle(node)
   width += int(computedStyle.borderLeftWidth)
   width += int(computedStyle.borderRightWidth)
-    // width += int(computedStyle.marginLeft);
-    // width += int(computedStyle.marginRight);
   return width
 }
 let innerHeight = function(node) {
@@ -319,6 +315,7 @@ export default {
     },
     handleUp: function(e) {
       // 如果没有做任何更改也没必要向父级emit事件
+      console.log(1)
       if (!this.dragging && !this.resizing && !this.rotating) {
         this.$emit('handleUp', {
           uid: ''
